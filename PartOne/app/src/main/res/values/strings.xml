@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Part One</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_sensor2">SensorActivity2</string>
+    <string name="btn_click">Options</string>
+    <string name="title_activity_actuators">Actuators</string>
+    <string name="actuators">Actuators	<tt>Activity</tt><br /><tt>TextView</tt>s
+<i>understand</i> HTML	<b>formatting</b>!</string>
+    <string name="txt_actuators">Actuators	<tt>Activity</tt><br /><tt>TextView</tt>s
+<i>understand</i> HTML	<b>formatting</b>!\n\nBut	no	HTML	breaks</string>
+    <string name="btn_vibrate">Vibrate</string>
+    <string name="btn_sound">Play Sound</string>
+
+</resources>
