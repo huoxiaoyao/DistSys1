@@ -18,8 +18,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="ch.ethz.inf.vs.a1.fabianu.sensors.SensorActivity2"
-            android:label="@string/title_activity_sensor2"
+            android:name=".SensorActivity"
+            android:label="@string/title_activity_sensor"
             android:parentActivityName="ch.ethz.inf.vs.a1.fabianu.sensors.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
