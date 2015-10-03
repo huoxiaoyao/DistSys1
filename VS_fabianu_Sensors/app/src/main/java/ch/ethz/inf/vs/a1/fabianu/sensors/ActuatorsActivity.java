@@ -17,7 +17,7 @@ public class ActuatorsActivity extends AppCompatActivity {
 
     private Vibrator	vib =	null;
     private int duration =	50;
-    private int vibTime;
+    private int vibTime = 500;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
