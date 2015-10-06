@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ch.ethz.inf.vs.a1.fabianu.antitheft" >
 
+    <uses-sdk android:minSdkVersion="18"
+        android:targetSdkVersion="18" />
+
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application

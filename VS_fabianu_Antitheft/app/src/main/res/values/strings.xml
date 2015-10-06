@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">VS_fabianu_Antitheft</string>
-    <string name="offText">Just chillin\'</string>
-    <string name="onText">Charrrrrrged</string>
+    <string name="offText"></string>
+    <string name="onText"></string>
     <string name="notificationTitle">Charrrrrrged</string>
     <string name="notificationText">Don\'t steal me</string>
+    <string name="armedNotificationTitle">You\'d better put it back down again</string>
+    <string name="armedNotificationText">Or I\'ll scream!!</string>
 </resources>

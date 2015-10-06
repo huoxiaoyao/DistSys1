@@ -16,24 +16,37 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        antiIntent = new Intent(this, AntiTheftServiceImpl.class);
         toggleSwitch = (Switch)findViewById(R.id.toggle);
         toggleSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked)
-                {
+                if (isChecked) {
                     enableAlarm();
-                }
-                else
-                {
+                } else {
                     disableAlarm();
                 }
             }
         });
     }
 
+    @Override
+    protected void onStart() {
+        //disable the alarm if called from the correct source
+        Intent callingIntent = getIntent();
+        if(callingIntent.getBooleanExtra(AntiTheftServiceImpl.STOP_ALARM, false))
+        {
+            if(toggleSwitch.isChecked()) {
+                toggleSwitch.setChecked(false);
+            }
+            else {
+                disableAlarm();
+            }
+        }
+        super.onStart();
+    }
+
     private void enableAlarm() {
-        antiIntent = new Intent(this, AntiTheftServiceImpl.class);
         startService(antiIntent);
     }
 
