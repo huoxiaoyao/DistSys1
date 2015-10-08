@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -36,28 +37,23 @@ public class MainActivity extends AppCompatActivity {
     private ServiceConnection mConnection = null;
     private boolean mIsBound = false;
 
+    private SharedPreferences sPref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        sPref = getSharedPreferences(Settings.SETTINGS_FILENAME, Context.MODE_PRIVATE);
+
         antiIntent = new Intent(this, AntiTheftServiceImpl.class);
         timeOutSeek = (SeekBar)findViewById(R.id.timeoutSeek);
         sensSeek = (SeekBar)findViewById(R.id.sensitivitySeek);
         toggleSwitch = (Switch)findViewById(R.id.toggle);
-        toggleSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    enableAlarm();
-                } else {
-                    disableAlarm();
-                }
-            }
-        });
+
 
         timeOutSeek.setMax(timeOutmax);
-        sensSeek.setMax((int)(sensitivityMax / sensStepSize));
+        sensSeek.setMax((int) (sensitivityMax / sensStepSize));
 
         installSeekbarListener(timeOutSeek, new SeekBarInitialiser() {
             @Override
@@ -69,9 +65,26 @@ public class MainActivity extends AppCompatActivity {
         installSeekbarListener(sensSeek, new SeekBarInitialiser() {
             @Override
             public void functionHolder(SeekBar seekBar, int progress, boolean fromUser) {
-                setSensitivity((float)progress * sensStepSize);
+                setSensitivity((float) progress * sensStepSize);
             }
         });
+
+        toggleSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                sPref.edit().putBoolean(Settings.ACTIVATE_STR, isChecked).commit();
+                if (isChecked) {
+                    enableAlarm();
+                } else {
+                    disableAlarm();
+                }
+            }
+        });
+
+        //initialise the values
+        sensSeek.setProgress((int)(sPref.getFloat(Settings.SENSITIVITY_STR, Settings.SENSITIVITY_DEFAULT) / sensStepSize));
+        timeOutSeek.setProgress(sPref.getInt(Settings.TIMEOUT_STR, Settings.TIMEOUT_DEFAULT));
+        toggleSwitch.setChecked(sPref.getBoolean(Settings.ACTIVATE_STR, Settings.ACTIVATE_DEFAULT));
     }
 
     private void installSeekbarListener(SeekBar bar, final SeekBarInitialiser init) {
@@ -129,12 +142,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void disableAlarm() {
+        doUnbindService();
         stopService(antiIntent);
         mConnection = null;
     }
 
     private void setTimeout(int timeout) {
         currentTimeout = timeout;
+        sPref.edit().putInt(Settings.TIMEOUT_STR, currentTimeout).commit();
         if(antiService != null)
         {
             antiService.setTimeout(currentTimeout);
@@ -143,6 +158,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setSensitivity(float sensitivity) {
         currentSensitivity = sensitivity;
+        sPref.edit().putFloat(Settings.SENSITIVITY_STR, currentSensitivity).commit();
         if(antiService != null)
         {
             antiService.setSensitivity(currentSensitivity);

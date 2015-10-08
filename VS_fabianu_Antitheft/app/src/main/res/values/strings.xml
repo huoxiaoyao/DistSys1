@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">VS_fabianu_Antitheft</string>
+    <string name="app_name">AntiTheft</string>
     <string name="offText"></string>
     <string name="onText"></string>
     <string name="notificationTitle">Charrrrrrged</string>
