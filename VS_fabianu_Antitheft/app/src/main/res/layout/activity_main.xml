@@ -17,17 +17,39 @@
         android:textOn="@string/onText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:switchMinWidth="50dp"
-        android:layout_weight="1"/>
+        android:switchMinWidth="50dp" />
 
-    <SeekBar
-        android:id="@+id/disarmTimeSeeker"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1">
 
-    <SeekBar
-        android:id="@+id/sensitivitySeeker"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sensitivityString"/>
+        <SeekBar
+            android:id="@+id/sensitivitySeek"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/timeOutString"/>
+        <SeekBar
+            android:id="@+id/timeoutSeek"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
 
 </LinearLayout>

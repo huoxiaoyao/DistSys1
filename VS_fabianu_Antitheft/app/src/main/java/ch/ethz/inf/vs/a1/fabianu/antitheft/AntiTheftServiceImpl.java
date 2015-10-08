@@ -9,10 +9,12 @@ import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Binder;
 import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 public class AntiTheftServiceImpl extends AbstractAntiTheftService {
     public static final int REQUEST_START = 5486327;
@@ -25,6 +27,15 @@ public class AntiTheftServiceImpl extends AbstractAntiTheftService {
     private int formerVolume = 0;
     private boolean alarmStarted = false;
     private boolean countdownStarted = false;
+    private int dischargeTime = 0;
+    private float sensitivity;
+    private final IBinder mBinder = new LocalBinder();
+
+    public class LocalBinder extends Binder {
+        AntiTheftServiceImpl getService() {
+            return AntiTheftServiceImpl.this;
+        }
+    }
 
     @Override
     public void onCreate() {
@@ -83,7 +94,6 @@ public class AntiTheftServiceImpl extends AbstractAntiTheftService {
 
             //time until alarm rings
             //TODO: let user set this one
-            int dischargeTime = 5000;
             alarmTimer = new CountDownTimer(dischargeTime, 500) {
                 @Override
                 public void onTick(long millisUntilFinished) {
@@ -124,6 +134,18 @@ public class AntiTheftServiceImpl extends AbstractAntiTheftService {
         alarmStarted = false;
     }
 
+    public void setTimeout(int t) {
+        dischargeTime = t;
+    }
+
+    public void setSensitivity(float s) {
+        sensitivity = s;
+        if(listener != null)
+        {
+            ((MovementDetector)listener).setThreshold(sensitivity);
+        }
+    }
+
     @Override
     public void onDestroy() {
         notMan.cancel(REQUEST_START);
@@ -135,6 +157,6 @@ public class AntiTheftServiceImpl extends AbstractAntiTheftService {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        return mBinder;
     }
 }

@@ -6,4 +6,6 @@
     <string name="notificationText">Don\'t steal me</string>
     <string name="armedNotificationTitle">You\'d better put it back down again</string>
     <string name="armedNotificationText">Or I\'ll scream!!</string>
+    <string name="sensitivityString">Sensitivity</string>
+    <string name="timeOutString">Time to disable alarm</string>
 </resources>

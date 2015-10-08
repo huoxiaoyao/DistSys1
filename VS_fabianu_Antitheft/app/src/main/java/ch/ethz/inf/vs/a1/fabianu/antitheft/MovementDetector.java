@@ -3,9 +3,6 @@ package ch.ethz.inf.vs.a1.fabianu.antitheft;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
-import android.os.SystemClock;
-import android.provider.*;
-import android.provider.Settings;
 
 import java.util.Iterator;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -17,7 +14,7 @@ public class MovementDetector extends AbstractMovementDetector {
     }
 
     private final long timeToLog = 5000;
-    private float thredhold = 1;
+    private float threshold = 1;
     //needed for sManager
     private Context context;
     private SensorManager sManager;
@@ -87,7 +84,7 @@ public class MovementDetector extends AbstractMovementDetector {
                     avgTotal += avgDist[i];
                 }
                 avgTotal /= avgDist.length * valueQueue.size();
-                return avgTotal > thredhold;
+                return avgTotal > threshold;
             }
 
 
@@ -114,5 +111,9 @@ public class MovementDetector extends AbstractMovementDetector {
         {
             it.remove();
         }
+    }
+
+    public void setThreshold(float t) {
+        threshold = t;
     }
 }
